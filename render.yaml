@@ -1,17 +1,29 @@
 services:
+  # =======================
+  # 🎨 FRONTEND (React + Vite)
+  # =======================
   - type: web
-    name: portfolio-site
+    name: kulonglam-portfolio-frontend
+    env: static
+    buildCommand: cd frontend && npm install && npm run build
+    staticPublishPath: frontend/dist
+    autoDeploy: true
+    envVars:
+      - key: NODE_VERSION
+        value: 18
+
+  # =======================
+  # ⚙️ BACKEND (Node + Express)
+  # =======================
+  - type: web
+    name: kulonglam-portfolio-backend
     env: node
     plan: free
-    region: frankfurt          # choose your closest region
-    branch: main
-    buildCommand: |
-      cd frontend && npm install && npm run build && cd ../backend && npm install
+    region: frankfurt
+    buildCommand: cd backend && npm install
     startCommand: node backend/server.js
-
-    healthCheckPath: /api/contact   # simple GET route always available
-    healthCheckIntervalSeconds: 60  # check every 1 minute
-    autoDeploy: true                # auto redeploy when pushing new commits
+    healthCheckPath: /api/contact
+    autoDeploy: true
 
     envVars:
       - key: NODE_ENV
@@ -22,11 +34,3 @@ services:
         sync: false
       - key: EMAIL_RECEIVER
         sync: false
-
-    # Restart automatically if it crashes
-    restartPolicy: always
-
-    # Log rotation keeps logs small
-    logOptions:
-      maxSize: 10m
-      maxFiles: 3
