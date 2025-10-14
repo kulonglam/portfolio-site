@@ -1,0 +1,32 @@
+services:
+  - type: web
+    name: portfolio-site
+    env: node
+    plan: free
+    region: frankfurt          # choose your closest region
+    branch: main
+    buildCommand: |
+      cd frontend && npm install && npm run build && cd ../backend && npm install
+    startCommand: node backend/server.js
+
+    healthCheckPath: /api/contact   # simple GET route always available
+    healthCheckIntervalSeconds: 60  # check every 1 minute
+    autoDeploy: true                # auto redeploy when pushing new commits
+
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: EMAIL_USER
+        sync: false
+      - key: EMAIL_PASS
+        sync: false
+      - key: EMAIL_RECEIVER
+        sync: false
+
+    # Restart automatically if it crashes
+    restartPolicy: always
+
+    # Log rotation keeps logs small
+    logOptions:
+      maxSize: 10m
+      maxFiles: 3
