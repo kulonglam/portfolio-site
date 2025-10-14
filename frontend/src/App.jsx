@@ -11,8 +11,9 @@ export default function App() {
   const [visible, setVisible] = useState(true);
 
   useEffect(() => {
+    const API_BASE_URL = import.meta.env.VITE_API_URL || "";
     axios
-      .get("/api/contact")
+      .get(`${API_BASE_URL}/api/contact`)
       .then((res) => setMessage(res.data.message))
       .catch((err) => console.error("Error fetching:", err));
   }, []);

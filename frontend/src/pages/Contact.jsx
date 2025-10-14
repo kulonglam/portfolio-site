@@ -17,21 +17,21 @@ export default function Contact() {
 
     try {
       console.log("📨 Sending request:", form);
-
-      const res = await fetch("/api/contact", {
+      const API_BASE_URL = import.meta.env.VITE_API_URL || "";
+      const res = await fetch(`${API_BASE_URL}/api/contact`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
       });
 
-      console.log("📥 Raw response:", res);
+      console.log("Raw response:", res);
 
       let data;
       try {
         data = await res.json();
-        console.log("✅ Parsed JSON:", data);
+        console.log(" Parsed JSON:", data);
       } catch (parseErr) {
-        console.error("❌ Failed to parse JSON:", parseErr);
+        console.error(" Failed to parse JSON:", parseErr);
         throw new Error("Invalid server response");
       }
 
