@@ -1,42 +1,51 @@
-import React from "react";
-import { motion } from "framer-motion";
-
-const skills = [
-  "React.js", "Node.js", "Express.js", "Django",
-  "MongoDB", "PostgreSQL", "Tailwind CSS", "REST APIs",
-  "Data Analysis", "Git/GitHub", "Docker", "Linux", "UI/UX", "EJS", "Networking"
-];
+import FadeIn from "../components/FadeIn";
+import { skillGroups } from "../data/content";
 
 export default function Skills() {
   return (
-    <motion.section
-      className="max-w-5xl mx-auto px-6 py-20"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.6 }}
-    >
-      <h2 className="text-3xl md:text-4xl font-bold text-white-800 mb-10 text-center">
-        Skills
-      </h2>
-      <motion.div
-        className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
-        initial="hidden"
-        animate="visible"
-        variants={{
-          hidden: { opacity: 0 },
-          visible: { opacity: 1, transition: { staggerChildren: 0.1 } }
-        }}
-      >
-        {skills.map((skill, index) => (
-          <motion.div
-            key={index}
-            className="bg-white border rounded-lg shadow p-4 text-center font-medium text-gray-700 hover:shadow-lg hover:scale-105 transition"
-            variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
+    <section className="page-shell">
+      <FadeIn>
+        <p className="section-kicker">Skills</p>
+        <h1 className="section-title">Technical toolkit</h1>
+        <p className="section-lead">
+          Languages, frameworks, databases, and practices used to design, build,
+          test, and support production systems.
+        </p>
+      </FadeIn>
+
+      <div className="mt-16 grid gap-5 md:grid-cols-2">
+        {skillGroups.map((group, index) => (
+          <FadeIn
+            key={group.title}
+            delay={index * 0.06}
+            className={`rounded-2xl border border-line bg-paper-elev/70 p-7 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-signal/25 hover:shadow-soft ${
+              index === 0 ? "md:col-span-2 md:bg-gradient-to-br md:from-ink md:to-[#16363a] md:text-white md:border-transparent" : ""
+            }`}
           >
-            {skill}
-          </motion.div>
+            <h2
+              className={`font-display text-xl font-bold ${
+                index === 0 ? "md:text-white" : "text-ink"
+              }`}
+            >
+              {group.title}
+            </h2>
+            <ul className="mt-5 flex flex-wrap gap-2.5">
+              {group.items.map((skill) => (
+                <li
+                  key={skill}
+                  className={`rounded-md border px-3.5 py-2 text-sm font-medium transition ${
+                    index === 0
+                      ? "border-white/15 bg-white/10 text-white/90 md:hover:bg-white/15"
+                      : "border-line bg-white text-ink-soft hover:border-signal/30 hover:text-signal"
+                  }`}
+                >
+                  {skill}
+                </li>
+              ))}
+            </ul>
+          </FadeIn>
         ))}
-      </motion.div>
-    </motion.section>
+      </div>
+    </section>
   );
 }

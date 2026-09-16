@@ -1,6 +1,6 @@
 services:
   # =======================
-  # 🎨 FRONTEND (React + Vite)
+  # FRONTEND (React + Vite)
   # =======================
   - type: web
     name: kulonglam-portfolio-frontend
@@ -11,9 +11,14 @@ services:
     envVars:
       - key: NODE_VERSION
         value: 18
+      - key: VITE_API_URL
+        fromService:
+          name: kulonglam-portfolio-backend
+          type: web
+          property: host
 
   # =======================
-  # ⚙️ BACKEND (Node + Express)
+  # BACKEND (Node + Express)
   # =======================
   - type: web
     name: kulonglam-portfolio-backend
@@ -22,12 +27,16 @@ services:
     region: frankfurt
     buildCommand: cd backend && npm install
     startCommand: node backend/server.js
-    healthCheckPath: /api/contact
+    healthCheckPath: /api/health
     autoDeploy: true
-
     envVars:
       - key: NODE_ENV
         value: production
+      - key: FRONTEND_URL
+        fromService:
+          name: kulonglam-portfolio-frontend
+          type: web
+          property: host
       - key: EMAIL_USER
         sync: false
       - key: EMAIL_PASS

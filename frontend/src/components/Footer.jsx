@@ -1,105 +1,54 @@
-import { FaGithub, FaFacebook, FaTwitter, FaWhatsapp, FaLinkedin } from "react-icons/fa";
-import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
+import { profile } from "../data/content";
 
 export default function Footer() {
   return (
-    <motion.footer
-      className="bg-gray-900 text-gray-400 py-6 mt-10"
-      initial={{ opacity: 0, y: 50 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8, ease: "easeOut" }}
-      viewport={{ once: true }} // animates only the first time it's in view
-    >
-    
-      <div className="max-w-6xl mx-auto px-6 text-center">
-        {/* Copyright */}
-        <p className="text-sm mb-4">
-          © {new Date().getFullYear()} Kulong Lam Wuol. All rights reserved.
-        </p>
+    <footer className="relative z-10 border-t border-line bg-paper-elev/50 backdrop-blur-sm">
+      <div className="mx-auto flex max-w-6xl flex-col gap-8 px-6 py-12 md:flex-row md:items-end md:justify-between md:px-8">
+        <div>
+          <p className="font-display text-2xl font-bold text-ink">
+            {profile.name}
+          </p>
+          <p className="mt-2 max-w-sm text-sm leading-relaxed text-ink-muted">
+            {profile.title}
+            <br />
+            {profile.location}
+          </p>
+        </div>
 
-        {/* Social Icons with Custom Tooltips */}
-        <div className="flex justify-center space-x-6 text-2xl">
-          {/* WhatsApp */}
-          <div className="relative group">
-            <a
-              href="https://whatsapp.com/+256777285894"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-green-500 transition transform hover:scale-125 duration-300"
-            >
-              <FaWhatsapp />
-            </a>
-            <span className="absolute bottom-10 left-1/2 -translate-x-1/2 bg-gray-800 text-white text-xs rounded-md px-2 py-1 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
-              WhatsApp
-              <span className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-gray-800"></span>
-            </span>
-          </div>
-
-          {/* Facebook */}
-          <div className="relative group">
-            <a
-              href="https://www.facebook.com/kulong.lam/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-blue-500 transition transform hover:scale-125 duration-300"
-            >
-              <FaFacebook />
-            </a>
-            <span className="absolute bottom-10 left-1/2 -translate-x-1/2 bg-gray-800 text-white text-xs rounded-md px-2 py-1 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
-              Facebook
-              <span className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-gray-800"></span>
-            </span>
-          </div>
-
-          {/* Twitter */}
-          <div className="relative group">
-            <a
-              href="#"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-sky-400 transition transform hover:scale-125 duration-300"
-            >
-              <FaTwitter />
-            </a>
-            <span className="absolute bottom-10 left-1/2 -translate-x-1/2 bg-gray-800 text-white text-xs rounded-md px-2 py-1 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
-              Twitter
-              <span className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-gray-800"></span>
-            </span>
-          </div>
-
-          {/* GitHub */}
-          <div className="relative group">
-            <a
-              href="https://github.com/kulonglam"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-gray-200 transition transform hover:scale-125 duration-300"
-            >
-              <FaGithub />
-            </a>
-            <span className="absolute bottom-10 left-1/2 -translate-x-1/2 bg-gray-800 text-white text-xs rounded-md px-2 py-1 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
-              GitHub
-              <span className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-gray-800"></span>
-            </span>
-          </div>
-
-          {/* LinkedIn */}
-          <div className="relative group">
-            <a
-              href="https://linkedin.com/in/kulong-lam-wuol-07ab04168"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-blue-400 transition transform hover:scale-125 duration-300"
-            >
-              <FaLinkedin />
-            </a>
-            <span className="absolute bottom-10 left-1/2 -translate-x-1/2 bg-gray-800 text-white text-xs rounded-md px-2 py-1 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
-              LinkedIn
-              <span className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-gray-800"></span>
-            </span>
-          </div>
+        <div className="flex flex-wrap gap-x-6 gap-y-3 text-sm font-medium">
+          <a
+            href={`mailto:${profile.email}`}
+            className="text-ink-muted transition hover:text-signal"
+          >
+            Email
+          </a>
+          <a
+            href={profile.linkedin}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-ink-muted transition hover:text-signal"
+          >
+            LinkedIn
+          </a>
+          <a
+            href={profile.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-ink-muted transition hover:text-signal"
+          >
+            GitHub
+          </a>
+          <Link to="/contact" className="text-signal transition hover:text-signal-dark">
+            Contact
+          </Link>
         </div>
       </div>
-    </motion.footer>
+      <div className="border-t border-line">
+        <p className="mx-auto max-w-6xl px-6 py-4 text-xs text-ink-muted md:px-8">
+          © {new Date().getFullYear()} {profile.fullName}
+        </p>
+      </div>
+    </footer>
   );
 }

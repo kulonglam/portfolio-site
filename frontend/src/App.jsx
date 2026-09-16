@@ -1,56 +1,33 @@
-import { useEffect, useState } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import ScrollToTop from "./components/ScrollToTop";
-import axios from "axios";
-
 
 export default function App() {
-  const [message, setMessage] = useState("");
-  const [visible, setVisible] = useState(true);
-
-  useEffect(() => {
-    const API_BASE_URL = import.meta.env.VITE_API_URL || "";
-    axios
-      .get(`${API_BASE_URL}/api/contact`)
-      .then((res) => setMessage(res.data.message))
-      .catch((err) => console.error("Error fetching:", err));
-  }, []);
+  const location = useLocation();
+  const reduce = useReducedMotion();
 
   return (
-    <div className="bg-gray-950 text-gray-100 min-h-screen flex flex-col">
-      {/* Navbar */}
+    <div className="relative flex min-h-screen flex-col overflow-x-hidden bg-paper text-ink">
+      <div className="pointer-events-none fixed inset-0 bg-mesh opacity-80" aria-hidden="true" />
+      <div className="noise-overlay fixed" aria-hidden="true" />
+
       <Navbar />
-    
-      {/* Page Content */}
-      <main className="flex-grow">
-        <Outlet />
-
-        {/* Backend Message Section (Dismissible) */}
-        {visible && (
-          <div className="relative max-w-3xl mx-auto mt-10 p-6 bg-gray-900 rounded-2xl shadow-lg border border-gray-800 text-center">
-            <button
-              onClick={() => setVisible(false)}
-              className="absolute top-3 right-3 text-gray-400 hover:text-red-400 transition"
-            >
-              ✕
-            </button>
-            <h1 className="text-3xl font-bold text-blue-400">
-              Kulong Lam Portfolio
-            </h1>
-            <p className="mt-4 text-lg text-gray-300">
-              Message from backend:{" "}
-              <span className="font-semibold text-green-400">{message}</span>
-            </p>
-          </div>
-        )}
+      <main className="relative z-10 flex-grow">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={location.pathname}
+            initial={reduce ? false : { opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={reduce ? undefined : { opacity: 0, y: -10 }}
+            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <Outlet />
+          </motion.div>
+        </AnimatePresence>
       </main>
-
-      {/* Footer */}
       <Footer />
-
-      {/* Scroll to top */}
       <ScrollToTop />
     </div>
   );
